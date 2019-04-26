@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: >
+  {{ cookiecutter.project_name }}
+
+Globals:
+  Function:
+    Handler: main
+    Runtime: go1.x
+    Timeout: 5
+    Tracing: Active
+
+Outputs:
+  ApiUrl:
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${ServerlessRestApiProdStage}"
+
+Resources:
+  HelloErrorFunction:
+    Properties:
+      CodeUri: handlers/hello-error
+      FunctionName: HelloError
+    Type: AWS::Serverless::Function
+
+  HelloWorldFunction:
+    Properties:
+      CodeUri: handlers/hello-world
+      FunctionName: HelloWorld
+    Type: AWS::Serverless::Function
+
+Transform: AWS::Serverless-2016-10-31
